@@ -5,6 +5,10 @@ public extension Array where Element == Number {
         vDSP.mean(self)
     }
     
+    func meanMagnitude() -> Number {
+        vDSP.meanMagnitude(self)
+    }
+    
     func meanSquare()  -> Number {
         vDSP.mean(self)
     }
@@ -21,6 +25,14 @@ public struct Statistics {
     
     static func mean(_ values:Number...) -> Number{
         values.mean()
+    }
+    
+    static func meanMagnitude(_ a:[Number]) -> Number  {
+        a.meanMagnitude()
+    }
+    
+    static func meanMagnitude(_ values:Number...) -> Number{
+        values.meanMagnitude()
     }
     
     static func meanSquare(_ a:[Number]) -> Number  {

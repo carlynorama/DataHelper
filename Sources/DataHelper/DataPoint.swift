@@ -22,6 +22,10 @@ extension DataPoint {
     static func == (lhs: any DataPoint, rhs: any DataPoint) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y
     }
+    
+    public var description:String {
+        String(format: "(%.2f, %.2f)", x, y)
+    }
 
 //    func hash(into hasher: inout Hasher) {
 //        hasher.combine(x)
@@ -55,40 +59,4 @@ public extension Datum {
         self.y = pair.1
     }
 }
-
-
-extension Array where Element == DataPoint {
-    
-    /// Unzip an `Array` of key/value tuples.
-    ///
-    /// - Returns: A tuple with two arrays, an `Array` of keys and an `Array` of values.
-    
-    func unzipDataPoints() -> ([Number], [Number])  {
-        var inputs = [Number]()
-        var results = [Number]()
-        
-        inputs.reserveCapacity(count)
-        results.reserveCapacity(count)
-        
-        forEach { dp in
-            inputs.append(dp.x)
-            results.append(dp.y)
-        }
-        
-        return (inputs, results)
-    }
-    
-    func sortedByX() -> [DataPoint] {
-        self.sorted{ $0.x > $1.x }
-
-    }
-    
-    func sortedByY() -> [DataPoint] {
-        self.sorted{ $0.y > $1.y }
-    }
-}
-
-
-
-
 

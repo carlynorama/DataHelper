@@ -11,8 +11,14 @@ public struct DataHelper {
     
     //MARK: Testing / Test Data
     //see MockData
-
+    
+    //MARK: Functions
+    static public func testFit(_ data:Data, to f:(Number)->Number) -> Statistics.ErrorMeasurements.FitReport {
+        Statistics.ErrorMeasurements.generateFitReport(f: f, data: data)
+    }
 }
+
+
     
 // //MARK: Error Handling
 //    enum DataError: Error {
