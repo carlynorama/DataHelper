@@ -4,7 +4,7 @@ public typealias Number = Double
 public typealias Data = [DataPoint]
 
 public struct DataHelper {
-    public init {}
+    public init() {}
     
     //MARK: Function Prototypes
     //see FunctionPrototypes.swift

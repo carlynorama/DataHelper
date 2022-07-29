@@ -19,7 +19,7 @@ public struct Statistics {
         a.mean()
     }
     
-    static func mean(_ values:Number...) {
+    static func mean(_ values:Number...) -> Number{
         values.mean()
     }
     
@@ -27,7 +27,7 @@ public struct Statistics {
         a.meanSquare()
     }
     
-    static func meanSquare(_ values:Number...) {
+    static func meanSquare(_ values:Number...) -> Number {
         values.meanSquare()
     }
     
@@ -35,7 +35,7 @@ public struct Statistics {
         a.rootMeanSquare()
     }
     
-    static func rootMeanSquare(_ values:Number...) {
+    static func rootMeanSquare(_ values:Number...) -> Number {
         values.rootMeanSquare()
     }
 }

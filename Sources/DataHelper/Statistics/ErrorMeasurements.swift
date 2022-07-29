@@ -8,20 +8,34 @@
 import Accelerate
 
 extension Statistics {
-    public struct ErrorMeasurements {
-        //E∞(f) = max | f(xₖ) - yₖ |
-        static public func maxError(f:(Number) -> Number, data:[DataPoint]) -> (value:Number, atPoint:Number) {
-            print(data)
-            
-            let d_ins, d_outs = data.unzip()
-            let f_outs = d_ins.map { value in f(value) }
-            
-            let delta:[Number] = vDSP.subtract(d_outs, f_outs)
-            let maxPair = vDSP.indexOfMaximumMagnitude(delta)
-            let dataPoint = data[maxPair.0]
-            let value = maxPair.1
-
-            return (value, dataPoint)
-        }
-    }
+//    public struct ErrorMeasurements {
+//        //E∞(f) = max | f(xₖ) - yₖ |
+//        static public func maxError(f:(Number) -> Number, data:[DataPoint]) -> (value:Number, atPoint:DataPoint) {
+//            print(data)
+//
+//            let unzipped = data.unzipDataPoints()
+//            let f_outs = unzipped.0.map { value in f(value) }
+//            
+//            let delta:[Number] = vDSP.subtract(unzipped.1, f_outs)
+//            let maxPair = vDSP.indexOfMaximumMagnitude(delta)
+//            let dataPoint = data[Int(maxPair.0)]
+//            let value = maxPair.1
+//
+//            return (value, dataPoint)
+//        }
+//        
+//        static public func maxError(f:(Double) -> Double, data:[(Double, Double)]) -> (value:Double, atPoint:(Double, Double)) {
+//            print(data)
+//            
+//            let unzipped = data.unzip()
+//            let f_outs = unzipped.0.map { value in f(value) }
+//            
+//            let delta:[Number] = vDSP.subtract(unzipped.1, f_outs)
+//            let maxPair = vDSP.indexOfMaximumMagnitude(delta)
+//            let dataPoint = data[Int(maxPair.0)]
+//            let value = maxPair.1
+//
+//            return (value, dataPoint)
+//        }
+//    }
 }
