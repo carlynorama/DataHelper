@@ -17,18 +17,17 @@ public protocol DataPoint{
     //init(x:Number, y:Number)
 }
 
-//extension DataPoint {
-//    
-//    static func == (lhs: any DataPoint, rhs: any DataPoint) -> Bool {
-//        return lhs.x == rhs.x && lhs.y == rhs.y
-//    }
-//    
-//    
+extension DataPoint {
+
+    static func == (lhs: any DataPoint, rhs: any DataPoint) -> Bool {
+        return lhs.x == rhs.x && lhs.y == rhs.y
+    }
+
 //    func hash(into hasher: inout Hasher) {
 //        hasher.combine(x)
 //        hasher.combine(y)
 //    }
-//}
+}
 
 public struct Datum:DataPoint {
     
@@ -58,13 +57,13 @@ public extension Datum {
 }
 
 
-extension Array {
+extension Array where Element == DataPoint {
     
     /// Unzip an `Array` of key/value tuples.
     ///
     /// - Returns: A tuple with two arrays, an `Array` of keys and an `Array` of values.
     
-    func unzipDataPoints() -> ([Number], [Number]) where Element == DataPoint {
+    func unzipDataPoints() -> ([Number], [Number])  {
         var inputs = [Number]()
         var results = [Number]()
         
@@ -77,6 +76,15 @@ extension Array {
         }
         
         return (inputs, results)
+    }
+    
+    func sortedByX() -> [DataPoint] {
+        self.sorted{ $0.x > $1.x }
+
+    }
+    
+    func sortedByY() -> [DataPoint] {
+        self.sorted{ $0.y > $1.y }
     }
 }
 
