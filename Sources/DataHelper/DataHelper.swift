@@ -1,6 +1,7 @@
 
 
 public typealias Number = Double
+public typealias Data = [DataPoint]
 
 public struct DataHelper {
     public init {}
@@ -11,7 +12,7 @@ public struct DataHelper {
     //MARK: Testing / Test Data
     //see MockData
 
-    }
+}
     
 // //MARK: Error Handling
 //    enum DataError: Error {

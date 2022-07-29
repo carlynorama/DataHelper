@@ -1,7 +1,6 @@
 import Accelerate
 
-extension Array where Element == Number {
-    
+public extension Array where Element == Number {
     func mean() -> Number {
         vDSP.mean(self)
     }
@@ -13,7 +12,6 @@ extension Array where Element == Number {
     func rootMeanSquare()  -> Number {
         vDSP.rootMeanSquare(self)
     }
-
 }
 
 public struct Statistics {

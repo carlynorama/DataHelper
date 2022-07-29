@@ -10,9 +10,29 @@ import Foundation
 //public typealias DataPoint = (Number, Number)
 
 public protocol DataPoint {
-    x:Number { get }
-    y:Number { get }
-    asPoint:(Number, Number) { get }
+    var x:Number { get }
+    var y:Number { get }
+    var point:(x:Number, y:Number) { get }
+}
+
+public struct Datum:DataPoint {
+    let x:Number
+    let y:Number
+    
+    var point:(x:Number, y:Number) {
+        (x,y)
+    }
+}
+
+public extension Datum {
+    init(_ x:Number, _ y:Number) {
+        self.x = x
+        self.y = y
+    }
+    init(_ pair:(Number, Number)) {
+        self.x = pair.0
+        self.y = pair.1
+    }
 }
 
 
