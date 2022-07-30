@@ -14,7 +14,7 @@ extension DataHelper {
     }
     
     static public func testQuadraticFunction(_ x:Number) -> Number {
-        linear(x, m: 3, b: 2)
+        quadraticPoly(x, a2: 2, a1: 3, a0: 4)
     }
     
     static public var testValues:[Number] {
