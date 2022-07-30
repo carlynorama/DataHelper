@@ -71,7 +71,7 @@ public struct Statistics {
         a.sum()
     }
     
-    static func sumOfSquares(_ values:Number...) -> Number {
+    static func sum(_ values:Number...) -> Number {
         values.sum()
     }
 }
