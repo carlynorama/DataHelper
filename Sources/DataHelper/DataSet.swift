@@ -60,6 +60,10 @@ public extension Array where Element == DataPoint {
         return (result.x, result.y)
     }
     
+    func findQuadratic() -> (a2:Number, a1:Number, a0:Number) {
+        let result = DataHelper.findQuadratic(for: self)
+        return (result.x, result.y, result.z)
+    }
     
     
 }
