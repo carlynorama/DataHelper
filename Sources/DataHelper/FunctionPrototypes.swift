@@ -25,6 +25,14 @@ public extension DataHelper {
     static func quadPoly(_ x:Number, m1:Number, b1:Number, m2:Number, b2:Number) -> Number {
         linear(x, m: m1, b: b1) * linear(x, m: m2, b: b2)
     }
+    
+    static func quadratic(_ x:Number, a:Number, b:Number, c:Number) -> Number {
+        a * pow(x, 2) + b * x + c
+    }
+
+    static func quadratic(_ x:Number, coeficients:(a:Number, b:Number, c:Number)) -> Number {
+        quadratic(x, a: coeficients.a, b: coeficients.b, c: coeficients.c)
+    }
 }
 
 
