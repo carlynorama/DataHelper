@@ -47,6 +47,10 @@ public extension DataHelper {
         C * exp(x*A)
     }
     
+    static func lnx(_ x:Number, m:Number, b:Number) -> Number {
+        m * log(x) + b
+    }
+    
     
 }
 

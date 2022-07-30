@@ -65,6 +65,16 @@ public extension Array where Element == DataPoint {
         return (result.x, result.y, result.z)
     }
     
+    func findEtoX() -> (A:Number, C:Number) {
+        let result = DataHelper.findEtoX(for: self)
+        return (result.x, result.y)
+    }
+    
+    func findLnX() -> (m:Number, b:Number) {
+        let result = DataHelper.findlnx(for: self)
+        return (result.x, result.y)
+    }
+    
     
 }
 

@@ -13,15 +13,23 @@ public extension DataHelper {
     static func findLine(for data:[DataPoint]) -> SIMD2<Number> {
         let splitData = data.unzipDataPoints()
         
-        let x1 = sigmaXk2:Number = splitData.inputs.sumOfSquares()
-        let y1 = sigmaXk:Number = vDSP.sum(splitData.inputs)
-        let x2 = sigmaXk
-        let y2 = n:Number = Double(data.count) as Number
+        let sigmaxk2:Number = splitData.inputs.sumOfSquares()
+        let sigmaxk:Number = vDSP.sum(splitData.inputs)
+        
+        let n:Number = Double(data.count) as Number
         
         let xkyk = vDSP.multiply(splitData.inputs, splitData.outputs)
         
-        let r1 = sigmaXkYk:Number = vDSP.sum(xkyk)
-        let r2 = sigmaYk:Number = vDSP.sum(splitData.outputs)
+        let sigmaxkyk:Number = vDSP.sum(xkyk)
+        let sigmayk:Number = vDSP.sum(splitData.outputs)
+        
+        let x1 = sigmaxk2
+        let y1 = sigmaxk
+        let x2 = sigmaxk
+        let y2 = n
+        
+        let r1 = sigmaxkyk
+        let r2 = sigmayk
         
         let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
                                                 x2: x2, y2: y2, r2: r2)
@@ -69,31 +77,156 @@ public extension DataHelper {
         return result
     }
     
-    static func findEtoX(for data:[DataPoint]) {
-        //Y = ln(y)
-        //X = x
-        //B = lnC
+    static func findEtoX(for data:[DataPoint]) -> SIMD2<Number> {
+        findNormalizingX(for: data, applying: log, inverse: exp)
+//        //Y = ln(y)
+//        //X = x
+//        //B = lnC
+//
+//        //lny = ln(Ce^(Ax)) -> lnC + ln(e^(Ax)) -> B + Ax = Y
+//
+//        let splitData = data.unzipDataPoints()
+//
+//        let Y_values = splitData.outputs.map { log($0) }
+//
+//        let sigmaXk2:Number = splitData.inputs.sumOfSquares()
+//        let sigmaXk:Number = (splitData.inputs).sum()
+//        let n = Double(data.count) as Number
+//        let Xk_Y_k = vDSP.multiply(splitData.inputs, Y_values)
+//        let sigmaXk_Y_k:Number = Xk_Y_k.sum()
+//        let sigma_Y_k:Number = Y_values.sum()
+//
+//
+//        let x1 = sigmaXk2
+//        let y1 = sigmaXk
+//        let x2 = sigmaXk
+//        let y2 = n
+//
+//        let r1 = sigmaXk_Y_k
+//        let r2 = sigma_Y_k
+//
+//        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
+//                                                x2: x2, y2: y2, r2: r2)
+//        print(result)
+//        let A = result.x
+//        let B = result.y
+//
+//        return SIMD2(x: A, y: exp(B))
+    }
+    
+    
+    static func findlnx(for data:[DataPoint]) -> SIMD2<Number>{
+        findUpdatingX(for: data, applying: log)
+//
+//        let splitData = data.unzipDataPoints()
+//
+//        let X_values = splitData.inputs.map { log($0) }
+//
+//        let sigma_X_k2:Number = X_values.sumOfSquares()
+//        let sigma_X_k:Number = vDSP.sum(X_values)
+//
+//        let n:Number = Double(data.count) as Number
+//
+//        let X_kyk = vDSP.multiply(X_values, splitData.outputs)
+//
+//        let sigma_X_kyk:Number = vDSP.sum(X_kyk)
+//        let sigmayk:Number = vDSP.sum(splitData.outputs)
+//
+//        let x1 = sigma_X_k2
+//        let y1 = sigma_X_k
+//        let x2 = sigma_X_k
+//        let y2 = n
+//
+//        let r1 = sigma_X_kyk
+//        let r2 = sigmayk
+//
+//        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
+//                                                x2: x2, y2: y2, r2: r2)
+//        print(result)
+//        let m = result.x
+//        let b = result.y
+//
+//        return SIMD2(x: m, y: b)
+    }
+    
+    
+    static func findNormalizingX(for data:[DataPoint], applying function:(Number)->Number, inverse:(Number)->Number) -> SIMD2<Number> {
         
-        //lny = ln(Ce^(Ax)) -> lnC + ln(e^(Ax)) -> B + Ax = Y
+        //Y = f(y)
+        //X = f( i(x) ) = x
+        //B = f(C)
+        
+        // y = Ce^(Ax) so function = ln() b/c  ln(e^x) = x
+        //ln(y) = ln(Ce^(Ax)) -> ln(C) + ln(e^(Ax)) -> B + Ax = Y
         
         let splitData = data.unzipDataPoints()
         
-        let Y_values = splitData.outputs.map { log($0) }
+        let Y_values = splitData.outputs.map { function($0) }
         
         let sigmaXk2:Number = splitData.inputs.sumOfSquares()
-        let sigmaXk:Number = vDSP.sum(splitData.inputs)
+        let sigmaXk:Number = (splitData.inputs).sum()
+        let n = Double(data.count) as Number
+        let Xk_Y_k = vDSP.multiply(splitData.inputs, Y_values)
+        let sigmaXk_Y_k:Number = Xk_Y_k.sum()
+        let sigma_Y_k:Number = Y_values.sum()
         
         
         let x1 = sigmaXk2
         let y1 = sigmaXk
-        let x2_SigmaXk:Number = splitData.inputs.reduce(0, +)
-        let y2_n:Number = Double(data.count) as Number
+        let x2 = sigmaXk
+        let y2 = n
         
-        let xkyk = vDSP.multiply(splitData.inputs, splitData.outputs)
+        let r1 = sigmaXk_Y_k
+        let r2 = sigma_Y_k
         
-        let r1_SigmaXkYk:Number = xkyk.reduce(0, +)
-        let r2_SigmaYk:Number = splitData.outputs.reduce(0, +)
+        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
+                                                x2: x2, y2: y2, r2: r2)
+        print(result)
+        let A = result.x
+        let B = result.y
         
-        let result = DataHelper.solveLinearPair(x1: x1_SigmaXk2, y1: y1_SigmaXk, r1: r1_SigmaXkYk, x2: x2_SigmaXk, y2: y2_n, r2: r2_SigmaYk)
+        return SIMD2(x: A, y: inverse(B))
+    }
+    
+    
+    static func findUpdatingX(for data:[DataPoint], applying function:(Number)->Number) -> SIMD2<Number>{
+        
+        //functions of the form m * f(x) + b = y can be solved by applying f to the data array
+        
+        //y = y
+        //X = f(x)
+        //b = b
+        
+        
+        
+        let splitData = data.unzipDataPoints()
+        
+        let X_values = splitData.inputs.map { function($0) }
+        
+        let sigma_X_k2:Number = X_values.sumOfSquares()
+        let sigma_X_k:Number = vDSP.sum(X_values)
+        
+        let n:Number = Double(data.count) as Number
+        
+        let X_kyk = vDSP.multiply(X_values, splitData.outputs)
+        
+        let sigma_X_kyk:Number = vDSP.sum(X_kyk)
+        let sigmayk:Number = vDSP.sum(splitData.outputs)
+        
+        let x1 = sigma_X_k2
+        let y1 = sigma_X_k
+        let x2 = sigma_X_k
+        let y2 = n
+        
+        let r1 = sigma_X_kyk
+        let r2 = sigmayk
+        
+        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
+                                                x2: x2, y2: y2, r2: r2)
+        print(result)
+        let m = result.x
+        let b = result.y
+        
+        return SIMD2(x: m, y: b)
     }
 }

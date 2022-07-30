@@ -17,10 +17,24 @@ extension DataHelper {
         quadraticPoly(x, a2: 2, a1: 3, a0: 4)
     }
     
+    static public func testEtoX(_ x:Number) -> Number {
+        eToTheX(x, C: 5, A: 2)
+    }
+    
+    static public func testEtoX_sqrt(_ x:Number) -> Number {
+        eToTheX(x, C: 5, A: 0.5)
+    }
+    
+    static public func testlnx(_ x:Number) -> Number {
+        lnx(x, m: 1, b: 2)
+    }
+    
+    //values to test dependent of equation testEtoX best for 1...4.0
+    //values to test dependent of equation testEtoX best for 1...4.0
     static public var testValues:[Number] {
         var values:[Number] = []
         for _ in 0...20 {
-            values.append(Number.random(in: -10.0...10.0))
+            values.append(Number.random(in: 0.7...6.0))
         }
         return values
     }
@@ -35,10 +49,13 @@ extension DataHelper {
 //                guard let x = i as? Number else {
 //                    throw DataError.notANumber
 //                }
-            let y = fuzzValue(function(x), fuzzFactor: 2)
+            let y = fuzzValue(function(x), fuzzFactor: 0.25)
             let point = Datum(x: x, y: y)
             resultArray.append(point)
         }
+        print(resultArray)
         return resultArray
     }
 }
+
+
