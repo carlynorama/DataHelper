@@ -21,6 +21,9 @@ public extension DataHelper {
     // e.g. https://www.youtube.com/watch?v=wBxUa9tHkkE&list=PLMiyQ6EW11_lJT2YKm7kz_Uaa7M0LbBkP&index=22
     //TODO: This will fail if Number becomes Float.
     //uses? Gauss Jordan Elimination w/ back substitution?
+    //    2x + 4y = 2
+    //   -4x + 2y = 14
+    //solution: (x = -2.6, y = 1.8)
     
     static func solveLinearPair(cx1:Number, cy1:Number, s1:Number, cx2:Number, cy2:Number, s2:Number) -> SIMD2<Number> {
         let a = simd_double2x2(rows: [
@@ -34,7 +37,7 @@ public extension DataHelper {
     
     
     //TODO: is there a \ equivalent? (MatLab "pick the best solver for Ax = b") is that LAPACK?
-   
+    
     
     
     //https://developer.apple.com/documentation/accelerate/solving_systems_of_linear_equations_with_lapack
