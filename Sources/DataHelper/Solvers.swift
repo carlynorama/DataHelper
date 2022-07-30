@@ -37,19 +37,19 @@ public extension DataHelper {
     //MARK: Solve Quadratic System - Many styles for calling TBD what it the most ergonomic.
     static func solveQuadratic(values:Array<Number>, solutions:Array<Number>) -> SIMD3<Number> {
         let a = try! arrayToMatrix3x3(values)
-        let b = try! arrayToVector(solutions)
+        let b = try! arrayToTriplet(solutions)
         return simd_mul(a.inverse, b)
     }
 
-    static func solveQuadratic(eq1:simd_double3, eq2:simd_double3, eq3:simd_double3, vector:simd_double3) -> SIMD3<Number> {
-        let a = simd_double3x3(rows: [
-            eq1,
-            eq2,
-            eq3
-        ])
-        let b = vector
-        return simd_mul(a.inverse, b)
-    }
+//    static func solveQuadratic(eq1:simd_double3, eq2:simd_double3, eq3:simd_double3, vector:simd_double3) -> SIMD3<Number> {
+//        let a = simd_double3x3(rows: [
+//            eq1,
+//            eq2,
+//            eq3
+//        ])
+//        let b = vector
+//        return simd_mul(a.inverse, b)
+//    }
 
     static func solveQuadratic(eq1:(Number, Number, Number), eq2:(Number, Number, Number), eq3:(Number, Number, Number), resultants:(Number, Number, Number)) -> SIMD3<Number> {
         solveQuadratic(x1: eq1.0, y1: eq1.1, z1: eq1.2, r1: resultants.0, x2: eq2.0, y2: eq2.1, z2: eq2.2, r2: resultants.1, x3: eq3.0, y3: eq3.1, z3: eq3.2, r3: resultants.2)
@@ -189,7 +189,7 @@ public extension DataHelper {
     }
     
     //MARK: Array to SIMD Matrix Conversion
-    func arrayToMatrix3x3(_ A:Array<Double>) throws -> simd_double3x3 {
+    static func arrayToMatrix3x3(_ A:Array<Double>) throws -> simd_double3x3 {
         guard A.count == 9 else {
             throw SolverError.runtimeError("array not 9 long")
         }
@@ -201,7 +201,7 @@ public extension DataHelper {
         return a
     }
 
-    func arrayToVector(_ A:Array<Double>) throws -> simd_double3 {
+    static func arrayToTriplet(_ A:Array<Double>) throws -> simd_double3 {
         guard A.count == 3 else {
             throw SolverError.runtimeError("array not 9 long")
         }
