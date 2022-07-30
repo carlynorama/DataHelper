@@ -15,23 +15,6 @@ import simd
 
 public extension DataHelper {
     
-    static func findLine(for data:[DataPoint]) -> SIMD2<Number> {
-        let splitData = data.unzipDataPoints()
-        let cx1_SigmaXk2:Number = splitData.inputs.sumOfSquares()
-        let cy1_SigmaXk:Number = splitData.inputs.reduce(0, +)
-        let cx2_SigmaXk:Number = splitData.inputs.reduce(0, +)
-        let cy2_n:Number = Double(data.count) as Number
-        
-        let xkyk = vDSP.multiply(splitData.inputs, splitData.outputs)
-        
-        let s1_SigmaXkYk:Number = xkyk.reduce(0, +)
-        let s2_SigmaYk:Number = splitData.outputs.reduce(0, +)
-        
-        let result = DataHelper.solveLinearPair(cx1: cx1_SigmaXk2, cy1: cy1_SigmaXk, s1: s1_SigmaXkYk, cx2: cx2_SigmaXk, cy2: cy2_n, s2: s2_SigmaYk)
-        
-        return result
-    }
-    
     
     //You can use matrices to solve simultaneous equations of the form AX = B
     //https://developer.apple.com/documentation/accelerate/working_with_matrices
@@ -53,10 +36,10 @@ public extension DataHelper {
     
     
     
-    //TODO: is there a \ equivalent? (MatLab "pick the best solver for Ax = b") is that LAPACK?
+
     
     
-    
+    //MARK: N-Size Matrix * Vector using LAPACK
     //https://developer.apple.com/documentation/accelerate/solving_systems_of_linear_equations_with_lapack
     //https://developer.apple.com/documentation/accelerate/using_vdsp_for_vector-based_arithmetic
     
@@ -97,7 +80,7 @@ public extension DataHelper {
         
         ///Put array into proper form
         vDSP_mtrans(mutableA, 1, &mutableA, 1, vDSP_Length(dimension), vDSP_Length(dimension))
-        //should also do b, but not sure here? right now might only work for 1
+        //should also do b, but not sure here? right now might only work for col width 1
         
         /// Call `sgesv_` to compute the solution.
         sgesv_(&n, &nrhs, &mutableA, &lda,
@@ -147,7 +130,7 @@ public extension DataHelper {
         ///Put array into proper matrix form
         vDSP_mtransD(mutableA, 1, &mutableA, 1, vDSP_Length(dimension), vDSP_Length(dimension))
         
-        //should also do b, but not sure here? right now might only work for 1
+        //should also do b, but not sure here? right now might only work for col width 1
         
         /// Call `dgesv_` to compute the solution.
         dgesv_(&n, &nrhs, &mutableA, &lda,
