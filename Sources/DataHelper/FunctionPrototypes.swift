@@ -51,6 +51,14 @@ public extension DataHelper {
         m * log(x) + b
     }
     
+    static func inverseX(_ x:Number, m:Number, b:Number) -> Number {
+        m * (1/x) + b
+    }
+    
+    static func inverseSquare(_ x:Number, m:Number, b:Number) -> Number {
+        m * (1/pow(x,2)) + b
+    }
+    
     
 }
 
