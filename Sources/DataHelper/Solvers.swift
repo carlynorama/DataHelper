@@ -35,13 +35,13 @@ public extension DataHelper {
     }
 
     //MARK: Solve Quadratic System - Many styles for calling TBD what it the most ergonomic.
-    func solveQuadratic(values:Array<Number>, solutions:Array<Number>) -> SIMD3<Number> {
+    static func solveQuadratic(values:Array<Number>, solutions:Array<Number>) -> SIMD3<Number> {
         let a = try! arrayToMatrix3x3(values)
         let b = try! arrayToVector(solutions)
         return simd_mul(a.inverse, b)
     }
 
-    func solveQuadratic(eq1:simd_double3, eq2:simd_double3, eq3:simd_double3, vector:simd_double3) -> SIMD3<Number> {
+    static func solveQuadratic(eq1:simd_double3, eq2:simd_double3, eq3:simd_double3, vector:simd_double3) -> SIMD3<Number> {
         let a = simd_double3x3(rows: [
             eq1,
             eq2,
@@ -51,11 +51,11 @@ public extension DataHelper {
         return simd_mul(a.inverse, b)
     }
 
-    func solveQuadratic(eq1:(Number, Number, Number), eq2:(Number, Number, Number), eq3:(Number, Number, Number), vector:(Number, Number, Number)) -> SIMD3<Number> {
-        solveQuadratic(x1: eq1.0, y1: eq1.1, z1: eq1.2, r1: vector.0, x2: eq2.0, y2: eq2.1, z2: eq2.2, r2: vector.1, x3: eq3.0, y3: eq3.1, z3: eq3.2, r3: vector.2)
+    static func solveQuadratic(eq1:(Number, Number, Number), eq2:(Number, Number, Number), eq3:(Number, Number, Number), resultants:(Number, Number, Number)) -> SIMD3<Number> {
+        solveQuadratic(x1: eq1.0, y1: eq1.1, z1: eq1.2, r1: resultants.0, x2: eq2.0, y2: eq2.1, z2: eq2.2, r2: resultants.1, x3: eq3.0, y3: eq3.1, z3: eq3.2, r3: resultants.2)
     }
 
-    func solveQuadratic(x1:Number, y1:Number, z1:Number, r1:Number, x2:Number, y2:Number, z2:Number, r2:Number, x3:Number, y3:Number, z3:Number, r3:Number) -> SIMD3<Number> {
+    static func solveQuadratic(x1:Number, y1:Number, z1:Number, r1:Number, x2:Number, y2:Number, z2:Number, r2:Number, x3:Number, y3:Number, z3:Number, r3:Number) -> SIMD3<Number> {
         let a = simd_double3x3(rows: [
             simd_double3(x1, y1, z1),
             simd_double3(x2, y2, z2),
@@ -66,7 +66,7 @@ public extension DataHelper {
     }
 
     
-    func solveCubic(eq1:(Number, Number, Number, Number), eq2:(Number, Number, Number, Number), eq3:(Number, Number, Number, Number), eq4:(Number, Number, Number, Number), resultants:(Number, Number, Number, Number)) -> SIMD4<Number> {
+    static func solveCubic(eq1:(Number, Number, Number, Number), eq2:(Number, Number, Number, Number), eq3:(Number, Number, Number, Number), eq4:(Number, Number, Number, Number), resultants:(Number, Number, Number, Number)) -> SIMD4<Number> {
             let a = simd_double4x4(rows: [
                 simd_double4(eq1.0, eq1.1, eq1.2, eq1.3),
                 simd_double4(eq2.0, eq2.1, eq2.2, eq2.3),
@@ -77,7 +77,7 @@ public extension DataHelper {
             return simd_mul(a.inverse, b)
     }
     
-    func solveCubic(x1:Number, y1:Number, z1:Number, t1: Number, r1:Number, x2:Number, y2:Number, z2:Number, t2: Number, r2:Number, x3:Number, y3:Number, z3:Number, t3: Number, r3:Number, x4:Number, y4:Number, z4:Number, t4: Number, r4:Number) -> SIMD4<Number> {
+    static func solveCubic(x1:Number, y1:Number, z1:Number, t1: Number, r1:Number, x2:Number, y2:Number, z2:Number, t2: Number, r2:Number, x3:Number, y3:Number, z3:Number, t3: Number, r3:Number, x4:Number, y4:Number, z4:Number, t4: Number, r4:Number) -> SIMD4<Number> {
         solveCubic(eq1: (x1, y1, z1, t1), eq2: (x2, y2, z2, t2), eq3: (x3, y3, z3, t3), eq4: (x4, y4, z4, t4), resultants: (r1, r2, r3, r4))
     }
 
