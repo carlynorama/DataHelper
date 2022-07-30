@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Accelerate
 
 
 
@@ -15,7 +16,7 @@ public extension Array where Element == DataPoint {
     ///
     /// - Returns: A tuple with two arrays, an `Array` of keys and an `Array` of values.
     
-    func unzipDataPoints() -> ([Number], [Number])  {
+    func unzipDataPoints() -> (inputs:[Number], outputs:[Number])  {
         var inputs = [Number]()
         var results = [Number]()
         
@@ -57,13 +58,15 @@ public extension Array where Element == DataPoint {
     func findLine() -> (m:Number, b:Number) {
         let splitData = self.unzipDataPoints()
         
-        let cx1_SigmaXk2:Number = 2
-        let cy1_SigmaXk:Number = 4
-        let cx2_SigmaXk:Number = -4
-        let cy2_n:Number = 2
+        let cx1_SigmaXk2:Number = splitData.inputs.sumOfSquares()
+        let cy1_SigmaXk:Number = splitData.inputs.reduce(0, +)
+        let cx2_SigmaXk:Number = splitData.inputs.reduce(0, +)
+        let cy2_n:Number = Double(self.count) as Number
         
-        let s1_SigmaXkYk:Number = 2
-        let s2_SigmaYk:Number = 14
+        let xkyk = vDSP.multiply(splitData.inputs, splitData.outputs)
+        
+        let s1_SigmaXkYk:Number = xkyk.reduce(0, +)
+        let s2_SigmaYk:Number = splitData.outputs.reduce(0, +)
         
         let result = DataHelper.solveLinearPair(cx1: cx1_SigmaXk2, cy1: cy1_SigmaXk, s1: s1_SigmaXkYk, cx2: cx2_SigmaXk, cy2: cy2_n, s2: s2_SigmaYk)
         
