@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import Accelerate
 
 public extension DataHelper {
     
