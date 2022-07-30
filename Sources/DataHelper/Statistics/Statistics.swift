@@ -16,6 +16,9 @@ public extension Array where Element == Number {
     func rootMeanSquare()  -> Number {
         vDSP.rootMeanSquare(self)
     }
+    func sumOfSquares() -> Number {
+        vDSP.sumOfSquares(self)
+    }
 }
 
 public struct Statistics {
@@ -49,5 +52,13 @@ public struct Statistics {
     
     static func rootMeanSquare(_ values:Number...) -> Number {
         values.rootMeanSquare()
+    }
+    
+    static func sumOfSquares(_ a:[Number]) -> Number  {
+        a.sumOfSquares()
+    }
+    
+    static func sumOfSquares(_ values:Number...) -> Number {
+        values.sumOfSquares()
     }
 }

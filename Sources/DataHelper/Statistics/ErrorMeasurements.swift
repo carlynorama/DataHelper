@@ -16,9 +16,16 @@ extension Statistics {
             public let meanError:Number
             public let meanErrorMagnitude:Number
             public let rmsError:Number
+            public let sumOfSquares:Number
             
             public var description:String {
-                "\(maxErrorDescription), \(meanErrorDescription), \(meanMagnitudeDescription), \(rmsDescription)"
+                """
+                \(maxErrorDescription),
+                \(meanErrorDescription),
+                \(meanMagnitudeDescription),
+                \(rmsDescription),
+                \(sumSquaresDescription)
+                """
             }
             
             public var maxErrorDescription:String {
@@ -36,6 +43,10 @@ extension Statistics {
             public var rmsDescription:String {
                 String(format: "rms is %.2f", rmsError)
             }
+            
+            public var sumSquaresDescription:String {
+                String(format: "ε is %.2f", sumOfSquares)
+            }
         }
         
         
@@ -43,8 +54,9 @@ extension Statistics {
             let maxResult = maxError(f: f, data: data)
             let meanResult = averageError(f: f, data: data)
             let rmsResult = rmsError(f: f, data: data)
+            let sumSq = sumOfSquares(f: f, data: data)
             
-            return FitReport(maxError: maxResult.value, maxErrorLocation: maxResult.atPoint, meanError: meanResult.mean, meanErrorMagnitude: meanResult.meanMagnitude, rmsError: rmsResult)
+            return FitReport(maxError: maxResult.value, maxErrorLocation: maxResult.atPoint, meanError: meanResult.mean, meanErrorMagnitude: meanResult.meanMagnitude, rmsError: rmsResult, sumOfSquares: sumSq)
         }
         
         //Array of differences
@@ -82,17 +94,26 @@ extension Statistics {
             return (value, dataPoint)
         }
         
-        //MARK: Average Error
-        //E₁(f) = 1/n (n, k=1) Σ | f(xₖ) - yₖ |
+        //MARK: Mean Errors
+        //E₁(f) = 1/n (n, k=1)Σ | f(xₖ) - yₖ |
         static public func averageError(f:(Number) -> Number, data:[DataPoint]) -> (mean: Number, meanMagnitude:Number) {
             let deltas = delta(f: f, data: data)
             return (deltas.mean(), deltas.meanMagnitude())
         }
         
         //MARK: Root Mean Square
+        //E₂(f) = √( 1/n (n, k=1)Σ (f(xₖ) - yₖ)²)
         static public func rmsError(f:(Number) -> Number, data:[DataPoint]) -> Number {
             let deltas = delta(f: f, data: data)
             return deltas.rootMeanSquare()
         }
+        
+        //sometimes ε / epsilon - Sum of squares of residuals
+        static public func sumOfSquares(f:(Number) -> Number, data:[DataPoint]) -> Number {
+            let deltas = delta(f: f, data: data)
+            return deltas.sumOfSquares()
+        }
+        
+        
     }
 }
