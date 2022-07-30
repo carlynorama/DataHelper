@@ -79,74 +79,11 @@ public extension DataHelper {
     
     static func findEtoX(for data:[DataPoint]) -> SIMD2<Number> {
         findNormalizingX(for: data, applying: log, inverse: exp)
-//        //Y = ln(y)
-//        //X = x
-//        //B = lnC
-//
-//        //lny = ln(Ce^(Ax)) -> lnC + ln(e^(Ax)) -> B + Ax = Y
-//
-//        let splitData = data.unzipDataPoints()
-//
-//        let Y_values = splitData.outputs.map { log($0) }
-//
-//        let sigmaXk2:Number = splitData.inputs.sumOfSquares()
-//        let sigmaXk:Number = (splitData.inputs).sum()
-//        let n = Double(data.count) as Number
-//        let Xk_Y_k = vDSP.multiply(splitData.inputs, Y_values)
-//        let sigmaXk_Y_k:Number = Xk_Y_k.sum()
-//        let sigma_Y_k:Number = Y_values.sum()
-//
-//
-//        let x1 = sigmaXk2
-//        let y1 = sigmaXk
-//        let x2 = sigmaXk
-//        let y2 = n
-//
-//        let r1 = sigmaXk_Y_k
-//        let r2 = sigma_Y_k
-//
-//        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
-//                                                x2: x2, y2: y2, r2: r2)
-//        print(result)
-//        let A = result.x
-//        let B = result.y
-//
-//        return SIMD2(x: A, y: exp(B))
     }
     
     
     static func findlnx(for data:[DataPoint]) -> SIMD2<Number>{
         findUpdatingX(for: data, applying: log)
-//
-//        let splitData = data.unzipDataPoints()
-//
-//        let X_values = splitData.inputs.map { log($0) }
-//
-//        let sigma_X_k2:Number = X_values.sumOfSquares()
-//        let sigma_X_k:Number = vDSP.sum(X_values)
-//
-//        let n:Number = Double(data.count) as Number
-//
-//        let X_kyk = vDSP.multiply(X_values, splitData.outputs)
-//
-//        let sigma_X_kyk:Number = vDSP.sum(X_kyk)
-//        let sigmayk:Number = vDSP.sum(splitData.outputs)
-//
-//        let x1 = sigma_X_k2
-//        let y1 = sigma_X_k
-//        let x2 = sigma_X_k
-//        let y2 = n
-//
-//        let r1 = sigma_X_kyk
-//        let r2 = sigmayk
-//
-//        let result = DataHelper.solveLinearPair(x1: x1, y1: y1, r1: r1,
-//                                                x2: x2, y2: y2, r2: r2)
-//        print(result)
-//        let m = result.x
-//        let b = result.y
-//
-//        return SIMD2(x: m, y: b)
     }
     
     
@@ -154,10 +91,16 @@ public extension DataHelper {
         
         //Y = f(y)
         //X = f( i(x) ) = x
-        //B = f(C)
+        //B = f(C)   C = i(B)
         
-        // y = Ce^(Ax) so function = ln() b/c  ln(e^x) = x
-        //ln(y) = ln(Ce^(Ax)) -> ln(C) + ln(e^(Ax)) -> B + Ax = Y
+        //example
+        // y = Ce^(Ax)
+        //so function = ln() b/c  ln(e^x) = x
+        //apply to both sides
+        //ln(y) = ln(Ce^(Ax))
+        //pull appart terms: ln(x^y) = y * ln(x) https://www.rapidtables.com/math/algebra/Ln.html
+        //ln(y) = ln(C) + A * ln(e^(x))
+        //Y = B + Ax
         
         let splitData = data.unzipDataPoints()
         
@@ -196,8 +139,6 @@ public extension DataHelper {
         //y = y
         //X = f(x)
         //b = b
-        
-        
         
         let splitData = data.unzipDataPoints()
         
