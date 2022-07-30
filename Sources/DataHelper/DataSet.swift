@@ -54,6 +54,22 @@ public extension Array where Element == DataPoint {
         self.min{ $0.y < $1.y }
     }
     
+    func findLine() -> (m:Number, b:Number) {
+        let splitData = self.unzipDataPoints()
+        
+        let cx1_SigmaXk2:Number = 2
+        let cy1_SigmaXk:Number = 4
+        let cx2_SigmaXk:Number = -4
+        let cy2_n:Number = 2
+        
+        let s1_SigmaXkYk:Number = 2
+        let s2_SigmaYk:Number = 14
+        
+        let result = DataHelper.solveLinearPair(cx1: cx1_SigmaXk2, cy1: cy1_SigmaXk, s1: s1_SigmaXkYk, cx2: cx2_SigmaXk, cy2: cy2_n, s2: s2_SigmaYk)
+        
+        return (result.x, result.y)
+    }
+    
 }
 
 
