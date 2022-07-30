@@ -9,7 +9,11 @@ import Foundation
 
 
 extension DataHelper {
-    static public func testFunction(_ x:Number) -> Number {
+    static public func testLinearFunction(_ x:Number) -> Number {
+        linear(x, m: 3, b: 2)
+    }
+    
+    static public func testQuadraticFunction(_ x:Number) -> Number {
         linear(x, m: 3, b: 2)
     }
     
@@ -25,13 +29,13 @@ extension DataHelper {
         x + Number.random(in: -fuzzFactor...fuzzFactor)
     }
     
-    static public func generateTestData() -> [DataPoint] {
+    static public func generateTestData(using function:(Number)->Number, for values:[Number]) -> [DataPoint] {
         var resultArray:[DataPoint] = []
-        for x in testValues {
+        for x in values {
 //                guard let x = i as? Number else {
 //                    throw DataError.notANumber
 //                }
-            let y = fuzzValue(testFunction(x), fuzzFactor: 2)
+            let y = fuzzValue(function(x), fuzzFactor: 2)
             let point = Datum(x: x, y: y)
             resultArray.append(point)
         }

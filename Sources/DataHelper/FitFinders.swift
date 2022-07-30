@@ -22,7 +22,7 @@ public extension DataHelper {
         let s1_SigmaXkYk:Number = xkyk.reduce(0, +)
         let s2_SigmaYk:Number = splitData.outputs.reduce(0, +)
         
-        let result = DataHelper.solveLinearPair(cx1: cx1_SigmaXk2, cy1: cy1_SigmaXk, s1: s1_SigmaXkYk, cx2: cx2_SigmaXk, cy2: cy2_n, s2: s2_SigmaYk)
+        let result = DataHelper.solveLinearPair(x1: cx1_SigmaXk2, y1: cy1_SigmaXk, r1: s1_SigmaXkYk, x2: cx2_SigmaXk, y2: cy2_n, r2: s2_SigmaYk)
         
         return result
     }

@@ -28,7 +28,7 @@ public extension DataHelper {
     }
     
     static func quadraticPoly(_ x:Number, coeficients:(a:Number, b:Number, c:Number)) -> Number {
-        quadratic(x, a2: coeficients.a, a1: coeficients.b, a0: coeficients.c)
+        quadraticPoly(x, a2: coeficients.a, a1: coeficients.b, a0: coeficients.c)
     }
     
     static func cubicPoly(_ x:Number, a3:Number, a2:Number, a1:Number, a0:Number) -> Number {
