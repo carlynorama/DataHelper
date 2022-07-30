@@ -41,6 +41,11 @@ public extension DataHelper {
         cubicPoly(x, a3: coeficients.0, a2: coeficients.1, a1: coeficients.2, a0: coeficients.3)
     }
     
+    // f(x) = Ceⁿ where n = xA
+    //https://www.youtube.com/watch?v=QEAqVh_PN2w&list=PLMiyQ6EW11_lJT2YKm7kz_Uaa7M0LbBkP&index=35
+    static func eToTheX(_ x:Number, C:Number, A:Number) -> Number {
+        C * exp(x*A)
+    }
     
     
 }
