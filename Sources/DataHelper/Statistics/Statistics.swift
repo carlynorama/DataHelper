@@ -19,6 +19,10 @@ public extension Array where Element == Number {
     func sumOfSquares() -> Number {
         vDSP.sumOfSquares(self)
     }
+    
+    func sum() -> Number {
+        vDSP.sum(self)
+    }
 
 }
 
@@ -61,5 +65,13 @@ public struct Statistics {
     
     static func sumOfSquares(_ values:Number...) -> Number {
         values.sumOfSquares()
+    }
+    
+    static func sum(_ a:[Number]) -> Number  {
+        a.sum()
+    }
+    
+    static func sumOfSquares(_ values:Number...) -> Number {
+        values.sum()
     }
 }
