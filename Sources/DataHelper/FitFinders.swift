@@ -81,11 +81,17 @@ public extension DataHelper {
         findNormalizingX(for: data, applying: log, inverse: exp)
     }
     
-    
     static func findlnx(for data:[DataPoint]) -> SIMD2<Number>{
         findUpdatingX(for: data, applying: log)
     }
     
+    static func findInverse(for data:[DataPoint]) -> SIMD2<Number> {
+        findUpdatingX(for: data, applying: invert)
+    }
+    
+    static func findInverseSquare(for data:[DataPoint]) -> SIMD2<Number> {
+        findUpdatingX(for: data, applying: invertSquare)
+    }
     
     static func findNormalizingX(for data:[DataPoint], applying function:(Number)->Number, inverse:(Number)->Number) -> SIMD2<Number> {
         

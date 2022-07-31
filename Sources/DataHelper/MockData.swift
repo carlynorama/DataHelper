@@ -29,12 +29,20 @@ extension DataHelper {
         lnx(x, m: 1, b: 2)
     }
     
+    static public func testInverse(_ x:Number) -> Number {
+        inverse(x, m: 2, b: 8)
+    }
+    
+    static public func testInverseSquare(_ x:Number) -> Number {
+        inverseSquare(x, m: 6, b: 2)
+    }
+    
     //values to test dependent of equation testEtoX best for 1...4.0
     //values to test dependent of equation testEtoX best for 1...4.0
     static public var testValues:[Number] {
         var values:[Number] = []
         for _ in 0...20 {
-            values.append(Number.random(in: 0.7...6.0))
+            values.append(Number.random(in: 0.1...5.0))
         }
         return values
     }

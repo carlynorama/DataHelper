@@ -75,6 +75,16 @@ public extension Array where Element == DataPoint {
         return (result.x, result.y)
     }
     
+    func findInverse() -> (m:Number, b:Number) {
+        let result = DataHelper.findInverse(for: self)
+        return (result.x, result.y)
+    }
+    
+    func findInverseSquare() -> (m:Number, b:Number) {
+        let result = DataHelper.findInverseSquare(for: self)
+        return (result.x, result.y)
+    }
+    
     
 }
 
