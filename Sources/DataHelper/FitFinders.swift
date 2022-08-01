@@ -29,7 +29,7 @@ extension FitStrategy {
             description = "\(values[0].frmt())x + \(values[1].frmt())"
         case .quadratic:
             values = DataHelper.simToArray(DataHelper.findQuadratic(for: data))
-            keys = ["a1", "a2", "a0"]
+            keys = ["a2", "a1", "a0"]
             description = "\(values[0].frmt())x^2 + \(values[1].frmt())x + \(values[2].frmt())"
         case .inverse:
             values = DataHelper.simToArray(DataHelper.findInverse(for: data))
@@ -42,7 +42,7 @@ extension FitStrategy {
         case .power:
             values = DataHelper.simToArray(DataHelper.findEtoX(for: data))
             keys = ["C", "A"]
-            description = "\(values[0].frmt()) * e^(\(values[1].frmt())x"
+            description = "\(values[0].frmt()) * e^(\(values[1].frmt())x)"
         case .log:
             values = DataHelper.simToArray(DataHelper.findlnx(for: data))
             keys = ["m", "b"]
@@ -70,7 +70,9 @@ extension FitStrategy {
             return values
         }
         
+        
         let p = extractParameterValues()
+        print("generateFunction: p.count \(p.count) p \(p) from \(parameters)")
         
         switch self {
             
