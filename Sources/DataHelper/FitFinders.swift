@@ -8,7 +8,58 @@
 import Foundation
 import Accelerate
 
+
+
+
+
+public enum FitStrategy:CaseIterable {
+    case linear, quadratic, inverse, inverseSquare, power, log
+}
+
+extension FitStrategy {
+    func find(for data:[DataPoint]) -> (description:String, values:Dictionary<String, Number>) {
+        var values:[Number] = []
+        var keys:[String] = []
+        var description:String = ""
+        switch self {
+            
+        case .linear:
+            values = DataHelper.simToArray(DataHelper.findLine(for: data))
+            keys = ["m", "b"]
+            description = "\(values[0].frmt())x + \(values[1].frmt()))"
+        case .quadratic:
+            values = DataHelper.simToArray(DataHelper.findQuadratic(for: data))
+            keys = ["a1", "a2", "a0"]
+            description = "\(values[0].frmt())x^2 + \(values[1].frmt())x + \(values[0].frmt())"
+        case .inverse:
+            values = DataHelper.simToArray(DataHelper.findInverse(for: data))
+            keys = ["m", "b"]
+            description = "\(values[0].frmt())(1/x) + \(values[1].frmt())"
+        case .inverseSquare:
+            values =  DataHelper.simToArray(DataHelper.findInverseSquare(for: data))
+            keys = ["m", "b"]
+            description = "\(values[0].frmt())(1/x^2) + \(values[1].frmt())"
+        case .power:
+            values = DataHelper.simToArray(DataHelper.findEtoX(for: data))
+            keys = ["C", "A"]
+            description = "\(values[0].frmt()) * e^(\(values[1].frmt())x)"
+        case .log:
+            values = DataHelper.simToArray(DataHelper.findlnx(for: data))
+            keys = ["m", "b"]
+            description = "\(values[0].frmt()) * lnx + \(values[1].frmt())"
+        }
+        
+        let resultDictionary = Dictionary(uniqueKeysWithValues: zip(keys, values))
+        return (description, resultDictionary)
+    }
+}
+
+
 public extension DataHelper {
+    
+    static func tryFit(for data:[DataPoint], using curve:FitStrategy) -> (description:String, values:Dictionary<String, Number>){
+        curve.find(for: data)
+    }
     
     static func findLine(for data:[DataPoint]) -> SIMD2<Number> {
         let splitData = data.unzipDataPoints()
@@ -176,4 +227,12 @@ public extension DataHelper {
         
         return SIMD2(x: m, y: b)
     }
+    
+    static func simToArray(_ matrix:SIMD2<Number>) -> [Number] {
+        [matrix.x, matrix.y]
+    }
+    static func simToArray(_ matrix:SIMD3<Number>) -> [Number] {
+        [matrix.x, matrix.y, matrix.z]
+    }
+    
 }
