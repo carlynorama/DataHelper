@@ -18,6 +18,7 @@ public protocol DataPoint{
 }
 
 extension DataPoint {
+   // var id:DataPoint {}
 
     static func == (lhs: any DataPoint, rhs: any DataPoint) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y

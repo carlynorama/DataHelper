@@ -11,8 +11,7 @@ import Foundation
 public extension DataHelper {
     
     static func generateFunction(using curve:FitStrategy, with parameterDict:Dictionary<String, Number>) -> ((Number) -> Number) {
-        func f(_ x:Number) -> Number { x * 2.0 }
-        return f
+        curve.generateFuntion(parameters: parameterDict)
     }
     
     static func linear(_ x:Number, m:Number, b:Number) -> Number {

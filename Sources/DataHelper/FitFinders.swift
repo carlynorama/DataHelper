@@ -30,7 +30,7 @@ extension FitStrategy {
         case .quadratic:
             values = DataHelper.simToArray(DataHelper.findQuadratic(for: data))
             keys = ["a1", "a2", "a0"]
-            description = "\(values[0].frmt())x^2 + \(values[1].frmt())x + \(values[0].frmt())"
+            description = "\(values[0].frmt())x^2 + \(values[1].frmt())x + \(values[2].frmt())"
         case .inverse:
             values = DataHelper.simToArray(DataHelper.findInverse(for: data))
             keys = ["m", "b"]
@@ -42,7 +42,7 @@ extension FitStrategy {
         case .power:
             values = DataHelper.simToArray(DataHelper.findEtoX(for: data))
             keys = ["C", "A"]
-            description = "\(values[0].frmt()) * e^(\(values[1].frmt())x)"
+            description = "\(values[0].frmt()) * e^(\(values[1].frmt())x"
         case .log:
             values = DataHelper.simToArray(DataHelper.findlnx(for: data))
             keys = ["m", "b"]
@@ -60,9 +60,13 @@ extension FitStrategy {
         
         func extractParameterValues() -> [Number] {
             var values:[Number] = []
-            for item in parameters {
-                values.append(item.value)
-            }
+            values.append(contentsOf: [parameters["m"]].compactMap {$0})
+            values.append(contentsOf: [parameters["b"]].compactMap {$0})
+            values.append(contentsOf: [parameters["A"]].compactMap {$0})
+            values.append(contentsOf: [parameters["C"]].compactMap {$0})
+            values.append(contentsOf: [parameters["a2"]].compactMap {$0})
+            values.append(contentsOf: [parameters["a1"]].compactMap {$0})
+            values.append(contentsOf: [parameters["a0"]].compactMap {$0})
             return values
         }
         
@@ -74,7 +78,7 @@ extension FitStrategy {
            func f_l(_ x:Number) -> Number { DataHelper.linear(x, m: p[0], b: p[1]) }
             f = f_l
         case .quadratic:
-            func f_q(_ x:Number) -> Number { DataHelper.quadraticPoly(x, a2: 3, a1: 2, a0: 1) }
+            func f_q(_ x:Number) -> Number { DataHelper.quadraticPoly(x, a2: p[0], a1: p[1], a0: p[2]) }
              f = f_q
         case .inverse:
             func f_i(_ x:Number) -> Number { DataHelper.inverse(x, m: p[0], b: p[1]) }
