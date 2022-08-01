@@ -52,6 +52,67 @@ extension FitStrategy {
         let resultDictionary = Dictionary(uniqueKeysWithValues: zip(keys, values))
         return (description, resultDictionary)
     }
+    
+    
+    
+    func generateFuntion(parameters:Dictionary<String, Number>) -> (Number) -> Number {
+        var f:(Number) -> Number
+        
+        func extractParameterValues() -> [Number] {
+            var values:[Number] = []
+            for item in parameters {
+                values.append(item.value)
+            }
+            return values
+        }
+        
+        let p = extractParameterValues()
+        
+        switch self {
+            
+        case .linear:
+           func f_l(_ x:Number) -> Number { DataHelper.linear(x, m: p[0], b: p[1]) }
+            f = f_l
+        case .quadratic:
+            func f_q(_ x:Number) -> Number { DataHelper.quadraticPoly(x, a2: 3, a1: 2, a0: 1) }
+             f = f_q
+        case .inverse:
+            func f_i(_ x:Number) -> Number { DataHelper.inverse(x, m: p[0], b: p[1]) }
+             f = f_i
+        case .inverseSquare:
+            func f_is(_ x:Number) -> Number { DataHelper.inverseSquare(x, m: p[0], b: p[1]) }
+             f = f_is
+        case .power:
+            func f_p(_ x:Number) -> Number { DataHelper.eToTheX(x, C: p[0], A: p[1]) }
+             f = f_p
+        case .log:
+            func f_lg(_ x:Number) -> Number { DataHelper.lnx(x, m: p[0], b: p[1]) }
+             f = f_lg
+        }
+        
+        return f
+    }
+    
+    public var description: String {
+        var string:String = ""
+        
+        switch self {
+            
+        case .linear:
+            string = "Linear | mx + b"
+        case .quadratic:
+            string = "Quadratic | mx^2 + b"
+        case .inverse:
+            string = "Inverse | m(1/x) + b"
+        case .inverseSquare:
+            string = "Inverse Square | m(1/x^2) + b"
+        case .power:
+            string = "Power | C * e^(Ax)"
+        case .log:
+            string = "Natural Log | m * ln(x) + b"
+        }
+        return string
+    }
 }
 
 
