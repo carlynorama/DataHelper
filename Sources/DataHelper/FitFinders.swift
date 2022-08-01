@@ -26,7 +26,7 @@ extension FitStrategy {
         case .linear:
             values = DataHelper.simToArray(DataHelper.findLine(for: data))
             keys = ["m", "b"]
-            description = "\(values[0].frmt())x + \(values[1].frmt()))"
+            description = "\(values[0].frmt())x + \(values[1].frmt())"
         case .quadratic:
             values = DataHelper.simToArray(DataHelper.findQuadratic(for: data))
             keys = ["a1", "a2", "a0"]
