@@ -4,6 +4,7 @@
 //
 //  Created by Labtanza on 7/29/22.
 //
+//TODO: Should their be a Function struct? 
 
 import Foundation
 
