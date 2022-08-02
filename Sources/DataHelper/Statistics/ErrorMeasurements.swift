@@ -74,7 +74,8 @@ extension Statistics {
             print(data)
             let delta = delta(f: f, data: data)
             let maxPair = vDSP.indexOfMaximumMagnitude(delta)
-            let dataPoint = data[Int(maxPair.0)]
+            //this is an optional.
+            let dataPoint:DataPoint = data[Int(maxPair.0)]
             let value = maxPair.1
 
             return (value, dataPoint)
