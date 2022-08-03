@@ -8,7 +8,7 @@
 import Foundation
 
 
-public enum CurveProfile:CaseIterable {
+public enum CurveProfile:String, CaseIterable {
     case linear, quadratic, inverse, inverseSquare, power, log
 }
 

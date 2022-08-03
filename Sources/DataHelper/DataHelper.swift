@@ -1,7 +1,7 @@
 
 
 public typealias Number = Double
-public typealias Data = [DataPoint]
+//public typealias Data = [DataPoint]
 
 public struct DataHelper {
     public init() {}
@@ -13,7 +13,7 @@ public struct DataHelper {
     //see MockData
     
     //MARK: Functions
-    static public func testFit(_ data:Data, to f:(Number)->Number) -> Statistics.ErrorMeasurements.FitReport {
+    static public func testFit(_ data:[DataPoint], to f:(Number)->Number) -> Statistics.ErrorMeasurements.FitReport {
         Statistics.ErrorMeasurements.generateFitReport(f: f, data: data)
     }
 }
