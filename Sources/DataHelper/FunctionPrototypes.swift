@@ -11,8 +11,12 @@ import Foundation
 //MARK: Function Prototypes
 public extension DataHelper {
     
-    static func generateFunction(using curve:FitStrategy, with parameterDict:Dictionary<String, Number>) -> ((Number) -> Number) {
-        curve.generateFuntion(parameters: parameterDict)
+    static func generateFunction(using curve:CurveProfile, with parameterDict:Dictionary<String, Number>) -> ((Number) -> Number) {
+        curve.generateFunction(parameters: parameterDict)
+    }
+    
+    static func generateFunction(using curve:CurveProfile, parameterValues p:[Number]) -> ((Number) -> Number) {
+        curve.generateFunction(parameters: p)
     }
     
     static func linear(_ x:Number, m:Number, b:Number) -> Number {
