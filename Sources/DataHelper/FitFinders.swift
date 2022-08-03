@@ -83,7 +83,8 @@ public extension DataHelper {
     }
     
     static func findEtoX(for data:[DataPoint]) -> SIMD2<Number> {
-        findNormalizingX(for: data, applying: log, inverse: exp)
+        let result = findNormalizingX(for: data, applying: log, inverse: exp)
+        return SIMD2(result.y, result.x)
     }
     
     static func findlnx(for data:[DataPoint]) -> SIMD2<Number>{
