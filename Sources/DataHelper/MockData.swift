@@ -39,10 +39,10 @@ extension DataHelper {
     
     //values to test dependent of equation testEtoX best for 1...4.0
     //values to test dependent of equation testEtoX best for 1...4.0
-    static public var testValues:[Number] {
+    static func generateTestValues(count:Int, in range:Range<Double>) -> [Number] {
         var values:[Number] = []
-        for _ in 0...20 {
-            values.append(Number.random(in: 0.1...5.0))
+        for _ in 0...count {
+            values.append(Number.random(in: range))
         }
         return values
     }
@@ -51,13 +51,18 @@ extension DataHelper {
         x + Number.random(in: -fuzzFactor...fuzzFactor)
     }
     
-    static public func generateTestData(using function:(Number)->Number, for values:[Number]) -> [DataPoint] {
+    static public func generateTestData(count:Int, in range:Range<Double>, using function:(Number)->Number, withFuzz fuzz:Double = 0) -> [DataPoint] {
+        generateTestData(
+            for: generateTestValues(count: count, in: range),
+            using: function,
+            withFuzz: fuzz
+        )
+    }
+    
+    static public func generateTestData(for values:[Number], using function:(Number)->Number, withFuzz fuzz:Double = 0.25) -> [DataPoint] {
         var resultArray:[DataPoint] = []
         for x in values {
-//                guard let x = i as? Number else {
-//                    throw DataError.notANumber
-//                }
-            let y = fuzzValue(function(x), fuzzFactor: 0.25)
+            let y = fuzzValue(function(x), fuzzFactor:fuzz)
             let point = Datum(x: x, y: y)
             resultArray.append(point)
         }
