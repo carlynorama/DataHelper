@@ -13,7 +13,7 @@ public enum CurveProfile:CaseIterable {
 }
 
 extension CurveProfile {
-    public func extractParameterValues(parameters:Dictionary<String, Number>) -> [Number] {
+    static public func extractParameterValues(parameters:Dictionary<String, Number>) -> [Number] {
         var values:[Number] = []
         values.append(contentsOf: [parameters["m"]].compactMap {$0})
         values.append(contentsOf: [parameters["b"]].compactMap {$0})
@@ -81,7 +81,7 @@ extension CurveProfile {
     
     func generateFunction(parameters:Dictionary<String, Number>) -> (Number) -> Number {
 
-        let p = extractParameterValues(parameters: parameters)
+        let p = Self.extractParameterValues(parameters: parameters)
         //print("generateFunction: p.count \(p.count) p \(p) from \(parameters)")
         return generateFunction(parameters:p)
 
