@@ -12,11 +12,26 @@ import Foundation
 public extension DataHelper {
     
     static func generateFunction(using curve:CurveProfile, with parameterDict:Dictionary<String, Number>) -> ((Number) -> Number) {
-        curve.generateFunction(parameters: parameterDict)
+        guard parameterDict.count == curve.parameterNames.count else {
+            print("parameter number does not match function requirements")
+            fatalError("parameter number does not match function requirements")
+        }
+        return curve.generateFunction(parameters: parameterDict)
     }
     
-    static func generateFunction(using curve:CurveProfile, parameterValues p:[Number]) -> ((Number) -> Number) {
-        curve.generateFunction(parameters: p)
+    static func generateFunction(using curve:CurveProfile, parameterValues p:[Number], appendZeros:Bool = true) -> ((Number) -> Number) {
+        var newP = p
+        guard p.count == curve.parameterNames.count else {
+            print("parameter number does not match function requirements")
+            if p.count < curve.parameterNames.count && appendZeros {
+                while p.count < curve.parameterNames.count {
+                    newP.append(0.0)
+                }
+                return curve.generateFunction(parameters: newP)
+            }
+            fatalError("parameter number does not match function requirements")
+        }
+        return curve.generateFunction(parameters: p)
     }
     
     static func linear(_ x:Number, m:Number, b:Number) -> Number {
