@@ -17,14 +17,14 @@ public protocol DataPoint{
     //init(x:Number, y:Number)
 }
 
-extension DataPoint {
-   // var id:DataPoint {}
-
+public extension DataPoint {
+   // var id:Self { self }
+    
     static func == (lhs: any DataPoint, rhs: any DataPoint) -> Bool {
         return lhs.x == rhs.x && lhs.y == rhs.y
     }
     
-    public var description:String {
+    var description:String {
         String(format: "(%.2f, %.2f)", x, y)
     }
 
