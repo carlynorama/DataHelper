@@ -127,7 +127,7 @@ extension CurveProfile {
         case .linear:
             string = "Linear | mx + b"
         case .quadratic:
-            string = "Quadratic | mx^2 + b"
+            string = "Quadratic | Ax^2 + Bx + C"
         case .inverse:
             string = "Inverse | m(1/x) + b"
         case .inverseSquare:
